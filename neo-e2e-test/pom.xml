@@ -5,16 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.bank</groupId>
-    <artifactId>neo-bank</artifactId>
+    <artifactId>neo-e2e-test</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <modules>
-        <module>neo-application</module>
-        <module>neo-service</module>
-        <module>neo-repository</module>
-        <module>neo-api</module>
-        <module>neo-e2e-test</module>
 
-    </modules>
-
-
+    
 </project>
