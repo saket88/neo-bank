@@ -17,22 +17,25 @@ public class NeoApplication {
     }
 
     private void start(){
-
         stop();
-        // Configure Spark
-        int port = 9080;
-        if (System.getenv("PORT") != null){
-            port = Integer.parseInt(System.getenv("PORT"));
-        }
-        System.out.println(String.format("Starting server on port %s", port));
-        port(port);
+        configureApplicationPort();
+        configureThreads();
+        Spark.init();
+        awaitInitialization(); // Wait for server to be initialized
+        resourceRegistry.registerRoutes();
+    }
+
+    private void configureThreads() {
         int maxThreads = 5;
         int minThreads = 2;
         int timeOutMillis = 50000;
         threadPool(maxThreads, minThreads, timeOutMillis);
-        Spark.init();
-        awaitInitialization(); // Wait for server to be initialized
-        resourceRegistry.registerRoutes();
+    }
+
+    private void configureApplicationPort() {
+        int port = 9080;
+        System.out.println(String.format(" Server is running on  port %s", port));
+        port(port);
     }
 
 

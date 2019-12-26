@@ -1,9 +1,11 @@
 package com.bank.registry;
 
+import com.bank.resource.AccountResource;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import spark.ResponseTransformer;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
+
 
 import static spark.Spark.get;
 

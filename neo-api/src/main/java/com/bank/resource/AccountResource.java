@@ -1,12 +1,13 @@
-package com.bank.registry;
+package com.bank.resource;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import spark.Request;
 import spark.Response;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
+
 
 @Singleton
 public class AccountResource {
