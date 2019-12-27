@@ -6,7 +6,7 @@
 
     <parent>
         <artifactId>neo-bank</artifactId>
-        <groupId>com.bank.bank</groupId>
+        <groupId>com.bank</groupId>
         <version>1.0-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
