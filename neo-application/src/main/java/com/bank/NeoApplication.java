@@ -1,6 +1,7 @@
 package com.bank;
 
 import com.bank.module.NeoApplicationModule;
+import com.bank.module.RepositoryModule;
 import com.bank.registry.ResourceRegistry;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
@@ -49,7 +50,8 @@ public class NeoApplication {
 
     public static void main(String[] args) {
         Guice.createInjector(
-                new NeoApplicationModule())
+                new NeoApplicationModule(),
+                new RepositoryModule())
                 .getInstance(NeoApplication.class)
                 .start();
     }

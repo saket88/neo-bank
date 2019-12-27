@@ -23,6 +23,9 @@ public class AccountResource {
     public void registerAccountRoutes() {
 
         Spark.post("/api/v1/account", createAccount());
+        Spark.exception(Exception.class, (exception, request, response) -> {
+            exception.printStackTrace();
+        });
     }
 
     private Route createAccount() {

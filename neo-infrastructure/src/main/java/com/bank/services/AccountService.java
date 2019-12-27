@@ -4,11 +4,15 @@ package com.bank.services;
 import com.bank.domain.Account;
 import com.bank.model.AccountValueObject;
 import com.bank.repositories.AccountDao;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
+@Singleton
 public class AccountService {
 
     AccountDao accountDao;
 
+    @Inject
     public AccountService(AccountDao accountDao) {
         this.accountDao = accountDao;
     }

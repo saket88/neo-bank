@@ -4,7 +4,6 @@ import com.bank.domain.Account;
 import com.bank.model.AccountValueObject;
 import com.bank.repositories.AccountDao;
 import com.bank.services.AccountService;
-import cucumber.api.java.en_old.Ac;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.junit.Assert;
 import org.junit.Test;
@@ -12,15 +11,11 @@ import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.internal.matchers.apachecommons.ReflectionEquals;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.math.BigDecimal;
 
-import static junit.framework.TestCase.assertTrue;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AccountServiceTest {

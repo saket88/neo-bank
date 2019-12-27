@@ -4,7 +4,7 @@
              xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
 	http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd" version="1.0">
 
-    <persistence-unit name="neo-bank" transaction-type="RESOURCE_LOCAL">
+    <persistence-unit name="test-neo-manager" transaction-type="RESOURCE_LOCAL">
         <!-- JPA entities must be registered here -->
         <class>com.bank.domain.Account</class>
 
@@ -12,7 +12,7 @@
             <!-- vendor-specific properties go here -->
             <property name="hibernate.connection.driver_class" value="org.h2.Driver"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
-            <property name="hibernate.connection.url" value="jdbc:h2:mem:neo;DB_CLOSE_DELAY=-1"/>
+            <property name="hibernate.connection.url" value="jdbc:h2:mem:/test;DB_CLOSE_DELAY=-1"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value="false"/>
         </properties>
