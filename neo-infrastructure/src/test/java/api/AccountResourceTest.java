@@ -5,15 +5,11 @@ import com.bank.model.AccountValueObject;
 import com.bank.services.AccountService;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
-import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.BDDMockito;
-import spark.ResponseTransformer;
-import spark.Spark;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -22,9 +18,8 @@ import static io.restassured.RestAssured.given;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
-import static spark.Spark.*;
 
-public class AccountResourceTest {
+public class AccountResourceTest extends BaseResourceTest{
 
 
 
@@ -35,19 +30,12 @@ public class AccountResourceTest {
 
     @Before
     public void setUp() throws Exception {
-        Spark.stop();
-        RestAssured.port =8080;
-        port(8080);
-        accountResource.registerAccountRoutes();
-        awaitInitialization();
+        super.setUp();
+       accountResource.registerAccountRoutes();
 
     }
 
-    @After
-    public void tearDown() throws Exception {
-        Spark.stop();
-        awaitStop();
-    }
+
 
     @Test
     public void canCreateAnAccount() throws FileNotFoundException {
