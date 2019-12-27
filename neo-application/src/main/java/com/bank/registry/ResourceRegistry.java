@@ -1,7 +1,8 @@
 package com.bank.registry;
 
 
-import com.bank.resource.AccountResource;
+
+import com.bank.api.AccountResource;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
