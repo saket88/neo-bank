@@ -12,7 +12,8 @@ public class NeoApplication {
     ResourceRegistry resourceRegistry;
 
     @Inject
-    public NeoApplication(final  ResourceRegistry resourceRegistry) {
+    public NeoApplication(final  ResourceRegistry resourceRegistry)
+    {
         this.resourceRegistry = resourceRegistry;
     }
 
