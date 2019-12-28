@@ -29,6 +29,9 @@ public class Account {
     @Column(name = "unique_id")
     String uniqueIdentificationNumber;
 
+    @Column(name = "account_no")
+    String accountNumber;
+
     @Column(name = "type")
     String identificationType;
 
@@ -37,4 +40,14 @@ public class Account {
 
     @Column
     String currency;
+
+    public void withdraw(BigDecimal amount) {
+        this.balance = this.balance.subtract(amount);
+
+    }
+
+    public void deposit(BigDecimal amount) {
+        this.balance = this.balance.add(amount);
+
+    }
 }

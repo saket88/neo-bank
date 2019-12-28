@@ -18,7 +18,7 @@ public class AccountService {
     }
 
     public AccountValueObject create(AccountValueObject accountValueObject) {
-        Account account = accountDao.save(getAccountFrom(accountValueObject));
+        Account account = accountDao.save(getAccountFrom(accountValueObject)).get();
         return getAccountValueObjectFrom(account);
     }
 
@@ -35,6 +35,7 @@ public class AccountService {
     private Account getAccountFrom(AccountValueObject accountValueObject) {
         return Account.builder()
                 .balance(accountValueObject.getBalance())
+                .accountNumber("NL"+Math.abs(100*Math.random()))
                 .currency(accountValueObject.getCurrency())
                 .uniqueIdentificationNumber(accountValueObject.getUniqueIdentificationNumber())
                 .identificationType(accountValueObject.getIdentificationType())

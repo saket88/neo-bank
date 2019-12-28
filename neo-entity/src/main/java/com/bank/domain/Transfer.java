@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Entity(name = "transfer")
+
 @Getter
 @Setter
 @ToString
@@ -15,13 +15,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
+@Entity(name = "transfer")
 public class Transfer {
 
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq-gen")
     @SequenceGenerator(name = "seq-gen",
-            sequenceName = "user_sequence", initialValue = 123)
+            sequenceName = "transfer_sequence", initialValue = 123)
     private Long id;
 
     @Column

@@ -2,7 +2,6 @@ package api;
 
 import com.bank.api.TransferResource;
 import com.bank.domain.Transfer;
-import com.bank.model.AccountValueObject;
 import com.bank.model.TransferValueObject;
 import com.bank.services.TransferService;
 import com.google.gson.Gson;
@@ -15,6 +14,7 @@ import org.mockito.BDDMockito;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.math.BigDecimal;
+import java.util.Optional;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
@@ -38,8 +38,9 @@ public class TransferResourceTest extends BaseResourceTest{
     @Test
     public void canCreateAnAccount() throws FileNotFoundException {
 
-        BDDMockito.given(transferService.transfer(anyObject())).willReturn(Transfer.builder()
-        .amount(new BigDecimal(100)).build());
+        BDDMockito.given(transferService.sendMoney(anyObject())).willReturn(
+                Optional.of(Transfer.builder()
+        .amount(new BigDecimal(100)).build()));
 
         final TransferValueObject payload = new Gson().fromJson(new JsonReader(new FileReader(
                 getClass().getClassLoader().getResource("transfer_money.json").getFile())), TransferValueObject.class);
@@ -47,7 +48,7 @@ public class TransferResourceTest extends BaseResourceTest{
         TransferValueObject  valueObject = given()
                 .contentType(ContentType.JSON)
                 .body(new Gson().toJson(payload))
-                .post("/api/v1/transfer")
+                .post("/api/v1/sendMoney")
                 .then()
                 .statusCode(201)
                 .extract()

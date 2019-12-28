@@ -7,6 +7,7 @@
     <persistence-unit name="neo-bank" transaction-type="RESOURCE_LOCAL">
         <!-- JPA entities must be registered here -->
         <class>com.bank.domain.Account</class>
+        <class>com.bank.domain.Transfer</class>
 
         <properties>
             <!-- vendor-specific properties go here -->

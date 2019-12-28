@@ -2,8 +2,12 @@ package com.bank.repositories;
 
 import com.bank.domain.Account;
 
-public interface AccountDao {
-    Account save(Account account);
+import java.util.Optional;
 
-    Account getAccount(Long id);
+public interface AccountDao {
+    Optional<Account> save(Account account);
+
+    Optional<Account> getAccount(Long id);
+
+    Optional<Account> getFromAccountNumber(String accountNo);
 }

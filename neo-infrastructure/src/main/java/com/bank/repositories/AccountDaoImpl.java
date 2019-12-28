@@ -17,12 +17,17 @@ public class AccountDaoImpl implements AccountDao {
     };
 
     @Override
-    public Account save(Account account) {
-        return entityManager.get().merge(account);
+    public Optional<Account> save(Account account) {
+        return Optional.of(entityManager.get().merge(account));
     }
 
     @Override
-    public Account getAccount(Long id) {
-        return entityManager.get().find(Account.class,id);
+    public Optional<Account> getAccount(Long id) {
+        return Optional.of(entityManager.get().find(Account.class,id));
+    }
+
+    @Override
+    public Optional<Account> getFromAccountNumber(String accountNo) {
+        return Optional.empty();
     }
 }

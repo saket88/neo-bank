@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 import static org.junit.Assert.assertTrue;
 
@@ -37,8 +38,8 @@ public class AccountRepositoryTest {
                 .name("Test name")
                 .uniqueIdentificationNumber("abc123")
                 .build();
-        Account accountExpected = accountDao.save(account);
-        assertTrue(EqualsBuilder.reflectionEquals(accountExpected,account,"id"));
+        Optional<Account> accountExpected = accountDao.save(account);
+        assertTrue(EqualsBuilder.reflectionEquals(accountExpected.get(),account,"id"));
 
     }
 
@@ -52,9 +53,9 @@ public class AccountRepositoryTest {
                 .name("Test name")
                 .uniqueIdentificationNumber("abc123")
                 .build();
-        Account accountSaved = accountDao.save(account);
+        Optional<Account> accountSaved = accountDao.save(account);
 
-        Account accountExpected = accountDao.getAccount(accountSaved.getId());
+        Optional<Account> accountExpected = accountDao.getAccount(accountSaved.get().getId());
         assertTrue(EqualsBuilder.reflectionEquals(accountExpected,accountSaved));
 
     }

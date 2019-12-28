@@ -2,6 +2,8 @@ package module;
 
 import com.bank.repositories.AccountDao;
 import com.bank.repositories.AccountDaoImpl;
+import com.bank.repositories.TransferDao;
+import com.bank.repositories.TransferDaoImpl;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
@@ -18,6 +20,8 @@ public class TestRepositoryModule extends AbstractModule {
             = new ThreadLocal<EntityManager>();
 
     public void configure() {
+
+        bind(TransferDao.class).to(TransferDaoImpl.class);
         bind(AccountDao.class).to(AccountDaoImpl.class);
     }
 

@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 import static org.mockito.Matchers.any;
 
@@ -45,7 +46,7 @@ public class AccountServiceTest {
                 .identificationType(accountValueObject.getIdentificationType())
                 .name(accountValueObject.getName()).build();
 
-        BDDMockito.given(accountDao.save(any())).willReturn(account);
+        BDDMockito.given(accountDao.save(any())).willReturn(Optional.of(account));
 
         AccountValueObject accountValueObjectExpected = accountService.create(accountValueObject);
 

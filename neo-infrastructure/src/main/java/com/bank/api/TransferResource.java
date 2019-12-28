@@ -22,7 +22,7 @@ public class TransferResource {
 
     public void registerAccountRoutes() {
 
-        Spark.post("/api/v1/transfer", transferMoney());
+        Spark.post("/api/v1/sendMoney", transferMoney());
         Spark.exception(Exception.class, (exception, request, response) -> {
             exception.printStackTrace();
         });
