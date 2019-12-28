@@ -7,18 +7,23 @@ import com.bank.services.AccountService;
 import com.bank.services.exception.CurrencyNotAllowedException;
 import com.bank.services.exception.InvalidAmountException;
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.hamcrest.MatcherAssert;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.math.BigDecimal;
 import java.util.Optional;
 
+import static org.hamcrest.Matchers.*;
 import static org.mockito.Matchers.any;
+import static org.hamcrest.MatcherAssert.*;
+import static org.mockito.Matchers.isNotNull;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AccountServiceTest {
@@ -40,7 +45,9 @@ public class AccountServiceTest {
 
         AccountValueObject accountValueObjectExpected = accountService.create(accountValueObject);
 
-        Assert.assertTrue(EqualsBuilder.reflectionEquals(accountValueObjectExpected,accountValueObject));
+        Assert.assertTrue(EqualsBuilder.reflectionEquals(accountValueObjectExpected,accountValueObject,"accountNumber"));
+
+
 
 
 
@@ -56,6 +63,7 @@ public class AccountServiceTest {
         AccountValueObject accountValueObjectExpected = accountService.create(accountValueObject);
 
         Assert.assertTrue(EqualsBuilder.reflectionEquals(accountValueObjectExpected,accountValueObject));
+        MatcherAssert.assertThat(accountValueObjectExpected.getAccountNumber(),is(not(nullValue())));
 
 
 
@@ -77,6 +85,7 @@ public class AccountServiceTest {
 
     private Account buildAccount(AccountValueObject accountValueObject) {
         return Account.builder()
+                .accountNumber(accountValueObject.getAccountNumber())
                 .balance(accountValueObject.getBalance())
                 .currency(accountValueObject.getCurrency())
                 .uniqueIdentificationNumber(accountValueObject.getUniqueIdentificationNumber())
@@ -85,8 +94,9 @@ public class AccountServiceTest {
     }
 
     private AccountValueObject buildAccountValueObject(String currency, int amount) {
-        return AccountValueObject.builder().
-                balance(new BigDecimal(amount))
+        return AccountValueObject.builder()
+                .accountNumber("NL123")
+                .balance(new BigDecimal(amount))
                 .currency(currency)
                 .uniqueIdentificationNumber("abc123")
                 .identificationType("Passport")

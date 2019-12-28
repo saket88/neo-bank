@@ -3,6 +3,7 @@ package api;
 import com.bank.api.AccountResource;
 import com.bank.model.AccountValueObject;
 import com.bank.services.AccountService;
+import com.bank.services.exception.InvalidAmountException;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import io.restassured.http.ContentType;
@@ -15,9 +16,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 
 import static io.restassured.RestAssured.given;
+
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.mock;
+
 
 public class AccountResourceTest extends BaseResourceTest{
 
@@ -55,6 +59,38 @@ public class AccountResourceTest extends BaseResourceTest{
                 .as(AccountValueObject.class);
 
         assertTrue(EqualsBuilder.reflectionEquals(payload,account));
+
+
+
+    }
+
+    @Test
+    public void shouldThrowBadRequestExceptionOnPassingWrongAmount()  {
+
+
+        BDDMockito.given(accountService.create(any()))
+                .willThrow(new InvalidAmountException("This is not allowed"));
+        given()
+                .contentType(ContentType.JSON)
+                .body("{\"ok\":\"ok\"}")
+                .post("/api/v1/account")
+                .then()
+                .statusCode(400);
+
+    }
+
+    @Test
+    public void shouldThrowBadRequestExceptionOnPassingWrongCurrency()  {
+
+
+        BDDMockito.given(accountService.create(any()))
+                .willThrow(new InvalidAmountException("This is not allowed"));
+        given()
+                .contentType(ContentType.JSON)
+                .body("{\"ok\":\"ok\"}")
+                .post("/api/v1/account")
+                .then()
+                .statusCode(400);
 
     }
 

@@ -17,8 +17,9 @@ public class AccountValueObject {
     String name;
     BigDecimal balance;
     String currency;
+    String accountNumber;
 
-    public AccountValueObject(String uniqueIdentificationNumber, String identificationType, String name, BigDecimal balance, String currency) {
+    public AccountValueObject(String uniqueIdentificationNumber, String identificationType, String name, BigDecimal balance, String currency, String accountNumber) {
         //Only SEPA transfer is allowed
         if (!currency.equals("EUR"))
             throw new CurrencyNotAllowedException("Only Euro transfer is accepted");
@@ -31,5 +32,6 @@ public class AccountValueObject {
         this.name = name;
         this.balance = balance;
         this.currency = currency;
+        this.accountNumber = accountNumber;
     }
 }

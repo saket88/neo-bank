@@ -1,7 +1,9 @@
 package com.bank.domain;
 
+import com.bank.domain.exception.InsufficientBalanceException;
 import lombok.*;
 
+import javax.naming.InsufficientResourcesException;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -56,6 +58,8 @@ public class Account {
     }
 
     public void deposit(BigDecimal amount) {
+        if (!(this.balance.subtract(amount).doubleValue()>0.0))
+            throw new InsufficientBalanceException("You need some serious balance");
         this.readWriteLock.writeLock().lock();
         try {
         this.balance = this.balance.add(amount);

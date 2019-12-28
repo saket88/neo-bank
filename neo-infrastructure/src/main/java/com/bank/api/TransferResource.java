@@ -1,11 +1,18 @@
 package com.bank.api;
 
+import com.bank.domain.exception.InsufficientBalanceException;
+import com.bank.model.ErrorMessage;
 import com.bank.model.TransferValueObject;
 import com.bank.services.TransferService;
+import com.bank.services.exception.CurrencyNotAllowedException;
+import com.bank.services.exception.InvalidAmountException;
+import com.bank.services.exception.NoTransactionAvailableException;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import spark.Route;
 import spark.Spark;
+
+import static spark.Spark.exception;
 
 public class TransferResource {
     private Gson gson;
@@ -21,8 +28,26 @@ public class TransferResource {
     public void registerTransferRoutes() {
 
         Spark.post("/api/v1/transfer", transferMoney());
-        Spark.exception(Exception.class, (exception, request, response) -> {
-            exception.printStackTrace();
+
+        Spark.get("/api/v1/transfer/:id", transferMoney());
+        exception(InvalidAmountException.class, (exception, request, response) -> {
+            response.status(400);
+            response.body(new Gson().toJson(new ErrorMessage("Bad Request "+exception.getMessage(), 400)));
+        });
+
+        exception(CurrencyNotAllowedException.class, (exception, request, response) -> {
+            response.status(400);
+            response.body(new Gson().toJson(new ErrorMessage("Bad Request "+exception.getMessage(), 400)));
+        });
+
+        exception(NoTransactionAvailableException.class, (exception, request, response) -> {
+            response.status(500);
+            response.body(new Gson().toJson(new ErrorMessage("Bad Request "+exception.getMessage(), 500)));
+        });
+
+        exception(InsufficientBalanceException.class, (exception, request, response) -> {
+            response.status(500);
+            response.body(new Gson().toJson(new ErrorMessage("Bad Request "+exception.getMessage(), 500)));
         });
     }
 

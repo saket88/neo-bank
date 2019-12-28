@@ -1,12 +1,18 @@
 package com.bank.api;
 
 import com.bank.model.AccountValueObject;
+import com.bank.model.ErrorMessage;
 import com.bank.services.AccountService;
+import com.bank.services.exception.CurrencyNotAllowedException;
+import com.bank.services.exception.InvalidAmountException;
+import com.bank.services.exception.NoTransactionAvailableException;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import spark.Route;
 import spark.Spark;
+
+import static spark.Spark.exception;
 
 @Singleton
 public class AccountResource {
@@ -23,9 +29,18 @@ public class AccountResource {
     public void registerAccountRoutes() {
 
         Spark.post("/api/v1/account", createAccount());
-        Spark.exception(Exception.class, (exception, request, response) -> {
-            exception.printStackTrace();
+
+        exception(InvalidAmountException.class, (exception, request, response) -> {
+            response.status(400);
+            response.body(new Gson().toJson(new ErrorMessage("Bad Request "+exception.getMessage(), 400)));
         });
+
+        exception(CurrencyNotAllowedException.class, (exception, request, response) -> {
+            response.status(400);
+            response.body(new Gson().toJson(new ErrorMessage("Bad Request "+exception.getMessage(), 400)));
+        });
+
+
     }
 
     private Route createAccount() {
@@ -36,6 +51,8 @@ public class AccountResource {
             return gson.toJson(accountService.create(accountValueObject));
         };
     }
+
+
 
 
 }
