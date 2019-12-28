@@ -2,7 +2,6 @@ package com.bank.model;
 
 import com.bank.services.exception.CurrencyNotAllowedException;
 import com.bank.services.exception.InvalidAmountException;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
