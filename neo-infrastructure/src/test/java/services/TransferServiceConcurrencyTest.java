@@ -46,7 +46,7 @@ public class TransferServiceConcurrencyTest {
     public void canMakeThreadSafeTransactions() throws InterruptedException {
 
         TransferValueObject transferValueObject = TransferValueObject.builder().
-                amount(new BigDecimal(1000.0))
+                amount(new BigDecimal(1.0))
                 .currency("EUR")
                 .fromAccount("NL123")
                 .toAccount("NL456")
@@ -84,7 +84,7 @@ public class TransferServiceConcurrencyTest {
         BDDMockito.given(accountDao.getFromAccountNumber("NL456")).willReturn(Optional.of(toAccount));
         BDDMockito.given(transferDao.save(anyObject())).willReturn(Optional.of(mockedTransfer));
 
-        int NUM_OF_THREADS=4;
+        int NUM_OF_THREADS=4000;
         Collection<Callable<Void>> tasks = new ArrayList<>(NUM_OF_THREADS);
 
         for (int i = 0; i < NUM_OF_THREADS; i++) {
