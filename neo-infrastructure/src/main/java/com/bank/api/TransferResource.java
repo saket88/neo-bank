@@ -1,8 +1,6 @@
 package com.bank.api;
 
-import com.bank.model.AccountValueObject;
 import com.bank.model.TransferValueObject;
-import com.bank.services.AccountService;
 import com.bank.services.TransferService;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
@@ -20,9 +18,9 @@ public class TransferResource {
     }
 
 
-    public void registerAccountRoutes() {
+    public void registerTransferRoutes() {
 
-        Spark.post("/api/v1/sendMoney", transferMoney());
+        Spark.post("/api/v1/transfer", transferMoney());
         Spark.exception(Exception.class, (exception, request, response) -> {
             exception.printStackTrace();
         });
@@ -33,10 +31,7 @@ public class TransferResource {
             TransferValueObject  transferValueObject= gson.fromJson(request.body(), TransferValueObject.class);
             response.status(201);
             response.type("application-json");
-            return gson.toJson(TransferValueObject
-                    .builder()
-                    .id("txn1-123")
-            .build());
+            return gson.toJson(transferService.sendMoney(transferValueObject).get());
         };
     }
 }

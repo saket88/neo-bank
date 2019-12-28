@@ -4,9 +4,10 @@ package com.bank.services;
 import com.bank.domain.Account;
 import com.bank.model.AccountValueObject;
 import com.bank.repositories.AccountDao;
+import com.bank.services.exception.CurrencyNotAllowedException;
+import com.bank.services.exception.InvalidAmountException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 @Singleton
 public class AccountService {
 
@@ -18,6 +19,14 @@ public class AccountService {
     }
 
     public AccountValueObject create(AccountValueObject accountValueObject) {
+        //Only SEPA transfer is allowed
+        if (!accountValueObject.getCurrency().equals("EUR"))
+            throw new CurrencyNotAllowedException("Only Euro transfer is accepted");
+        //Negative or zero Amount can not be transferred
+
+        if (!(accountValueObject.getBalance().doubleValue()>0))
+            throw new InvalidAmountException("Only positive amount transfer is accepted");
+
         Account account = accountDao.save(getAccountFrom(accountValueObject)).get();
         return getAccountValueObjectFrom(account);
     }

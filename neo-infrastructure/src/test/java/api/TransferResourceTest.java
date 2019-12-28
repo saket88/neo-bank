@@ -31,15 +31,16 @@ public class TransferResourceTest extends BaseResourceTest{
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        transferResource.registerAccountRoutes();
+        transferResource.registerTransferRoutes();
 
     }
 
     @Test
-    public void canCreateAnAccount() throws FileNotFoundException {
+    public void canTransferMoney() throws FileNotFoundException {
 
         BDDMockito.given(transferService.sendMoney(anyObject())).willReturn(
                 Optional.of(Transfer.builder()
+                        .id(1l)
         .amount(new BigDecimal(100)).build()));
 
         final TransferValueObject payload = new Gson().fromJson(new JsonReader(new FileReader(
@@ -48,7 +49,7 @@ public class TransferResourceTest extends BaseResourceTest{
         TransferValueObject  valueObject = given()
                 .contentType(ContentType.JSON)
                 .body(new Gson().toJson(payload))
-                .post("/api/v1/sendMoney")
+                .post("/api/v1/transfer")
                 .then()
                 .statusCode(201)
                 .extract()

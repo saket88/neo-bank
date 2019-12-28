@@ -2,6 +2,8 @@ package com.bank.module;
 
 import com.bank.repositories.AccountDao;
 import com.bank.repositories.AccountDaoImpl;
+import com.bank.repositories.TransferDao;
+import com.bank.repositories.TransferDaoImpl;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
@@ -16,7 +18,9 @@ public class RepositoryModule extends AbstractModule {
 
     @Override
     public void configure(){
+
         bind(AccountDao.class).to(AccountDaoImpl.class);
+        bind(TransferDao.class).to(TransferDaoImpl.class);
     }
 
     @Provides
