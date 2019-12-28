@@ -98,8 +98,8 @@ public class TransferServiceConcurrencyTest {
 
         verify(transferDao,times(NUM_OF_THREADS)).save(any());
 
-        assertThat(fromAccount.getBalance(),is(equalTo(new BigDecimal(999000.50))));
-        assertThat(toAccount.getBalance(),is(equalTo(new BigDecimal(2001000.25))));
+        assertThat(fromAccount.getBalance(),is(equalTo(new BigDecimal(996000.5))));
+        assertThat(toAccount.getBalance(),is(equalTo(new BigDecimal(2004000.25))));
 
 
     }

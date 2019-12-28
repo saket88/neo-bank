@@ -4,6 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 
 @Entity(name = "account")
@@ -15,6 +17,8 @@ import java.math.BigDecimal;
 @Builder
 @AllArgsConstructor
 public class Account {
+
+    private final ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
 
     @Id
     @Column
@@ -42,12 +46,22 @@ public class Account {
     String currency;
 
     public void withdraw(BigDecimal amount) {
-        this.balance = this.balance.subtract(amount);
+        this.readWriteLock.writeLock().lock();
+        try {
+            this.balance = this.balance.subtract(amount);
+        }finally {
+            this.readWriteLock.writeLock().unlock();
+        }
 
     }
 
     public void deposit(BigDecimal amount) {
+        this.readWriteLock.writeLock().lock();
+        try {
         this.balance = this.balance.add(amount);
+        }finally {
+            this.readWriteLock.writeLock().unlock();
+        }
 
     }
 }
