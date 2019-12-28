@@ -19,13 +19,6 @@ public class AccountService {
     }
 
     public AccountValueObject create(AccountValueObject accountValueObject) {
-        //Only SEPA transfer is allowed
-        if (!accountValueObject.getCurrency().equals("EUR"))
-            throw new CurrencyNotAllowedException("Only Euro transfer is accepted");
-        //Negative or zero Amount can not be transferred
-
-        if (!(accountValueObject.getBalance().doubleValue()>0))
-            throw new InvalidAmountException("Only positive amount transfer is accepted");
 
         Account account = accountDao.save(getAccountFrom(accountValueObject)).get();
         return getAccountValueObjectFrom(account);
