@@ -1,0 +1,166 @@
+{
+	"info": {
+		"_postman_id": "a34ea6b9-43ee-44da-a16e-825205467007",
+		"name": "Money Transfer API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Save Account To",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e9775d8a-0ea2-49c0-9768-be1864b90319",
+						"exec": [
+							"var response = JSON.parse(responseBody);",
+							"",
+							"postman.setEnvironmentVariable(\"accountNumberTo\", response.accountNumber);",
+							"setTimeout(function(){}, 2000);",
+							"",
+							"console.log(response.accountNumber);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"uniqueIdentificationNumber\": \"abc456\",\n  \"identificationType\": \"PASSPORT\",\n  \"name\": \"Test another name\",\n  \"balance\": 2000,\n  \"currency\": \"EUR\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9080/api/v1/account",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9080",
+					"path": [
+						"api",
+						"v1",
+						"account"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save Account From",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "aaa72ea2-f925-4992-b545-ff4f34314ce1",
+						"exec": [
+							"var response = JSON.parse(responseBody);",
+							"",
+							"postman.setEnvironmentVariable(\"accountNumberFrom\", response.accountNumber);",
+							"setTimeout(function(){}, 2000);",
+							"",
+							"console.log(response.accountNumber);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"uniqueIdentificationNumber\": \"abc123\",\n  \"identificationType\": \"PASSPORT\",\n  \"name\": \"Test name\",\n  \"balance\": 1000,\n  \"currency\": \"EUR\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9080/api/v1/account",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9080",
+					"path": [
+						"api",
+						"v1",
+						"account"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transfer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"fromAccount\": {{accountNumberFrom}},\n  \"toAccount\": {{accountNumberTo}},\n  \"currency\": \"EUR\",\n  \"amount\": \"100\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9080/api/v1/transfer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9080",
+					"path": [
+						"api",
+						"v1",
+						"transfer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Accounts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
