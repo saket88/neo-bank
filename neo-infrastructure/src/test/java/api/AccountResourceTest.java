@@ -3,6 +3,7 @@ package api;
 import com.bank.api.AccountResource;
 import com.bank.model.AccountValueObject;
 import com.bank.services.AccountService;
+import com.bank.services.exception.CurrencyNotAllowedException;
 import com.bank.services.exception.InvalidAmountException;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
@@ -82,7 +83,7 @@ public class AccountResourceTest extends BaseResourceTest{
 
 
         BDDMockito.given(accountService.create(any()))
-                .willThrow(new InvalidAmountException("This is not allowed"));
+                .willThrow(new CurrencyNotAllowedException("This is not allowed"));
         given()
                 .contentType(ContentType.JSON)
                 .body("{\"ok\":\"ok\"}")
