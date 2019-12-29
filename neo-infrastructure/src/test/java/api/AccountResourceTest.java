@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.BDDMockito;
 
+import javax.management.BadAttributeValueExpException;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class AccountResourceTest extends BaseResourceTest{
 
 
     @Test
-    public void canCreateAnAccount() throws FileNotFoundException {
+    public void canCreateAnAccount() throws FileNotFoundException, BadAttributeValueExpException {
 
 
         final AccountValueObject payload = new Gson().fromJson(new JsonReader(new FileReader(
@@ -90,7 +91,7 @@ public class AccountResourceTest extends BaseResourceTest{
 
 
     @Test
-    public void shouldThrowBadRequestExceptionOnPassingWrongAmount()  {
+    public void shouldThrowBadRequestExceptionOnPassingWrongAmount() throws BadAttributeValueExpException {
 
 
         BDDMockito.given(accountService.create(any()))
@@ -105,7 +106,7 @@ public class AccountResourceTest extends BaseResourceTest{
     }
 
     @Test
-    public void shouldThrowBadRequestExceptionOnPassingWrongCurrency()  {
+    public void shouldThrowBadRequestExceptionOnPassingWrongCurrency() throws BadAttributeValueExpException {
 
 
         BDDMockito.given(accountService.create(any()))
