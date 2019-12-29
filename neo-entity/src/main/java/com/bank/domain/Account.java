@@ -20,6 +20,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 @AllArgsConstructor
 public class Account {
 
+    @Transient
     private final ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
 
     @Id

@@ -29,6 +29,7 @@ public class AccountService {
                 .balance(account.getBalance())
                 .currency(account.getCurrency())
                 .identificationType(account.getIdentificationType())
+                .accountNumber(account.getAccountNumber())
                 .uniqueIdentificationNumber(account.getUniqueIdentificationNumber())
                 .name(account.getName())
                 .build();
@@ -37,7 +38,7 @@ public class AccountService {
     private Account getAccountFrom(AccountValueObject accountValueObject) {
         return Account.builder()
                 .balance(accountValueObject.getBalance())
-                .accountNumber("NL"+Math.abs(100*Math.random()))
+                .accountNumber("NL"+Math.round(10000*Math.random()))
                 .currency(accountValueObject.getCurrency())
                 .uniqueIdentificationNumber(accountValueObject.getUniqueIdentificationNumber())
                 .identificationType(accountValueObject.getIdentificationType())

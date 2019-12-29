@@ -39,7 +39,28 @@ public class AccountRepositoryTest {
                 .uniqueIdentificationNumber("abc123")
                 .build();
         Optional<Account> accountExpected = accountDao.save(account);
-        assertTrue(EqualsBuilder.reflectionEquals(accountExpected.get(),account,"id"));
+        assertTrue(EqualsBuilder.reflectionEquals(accountExpected.get(),account,"id","readWriteLock"));
+
+    }
+
+    @Test
+    public void canGetAccountFromAccountNumber(){
+        final String accounNumber = "NL123";
+        Account account= Account
+                .builder()
+                .accountNumber(accounNumber)
+                .balance(new BigDecimal(100))
+                .identificationType("PASSPORT")
+                .currency("EUR")
+                .name("Test name")
+                .uniqueIdentificationNumber("abc123")
+                .build();
+
+          accountDao.save(account);
+
+        Optional<Account> accountExpected = accountDao.getFromAccountNumber(accounNumber);
+
+        assertTrue(EqualsBuilder.reflectionEquals(accountExpected.get(),account,"id","readWriteLock"));
 
     }
 

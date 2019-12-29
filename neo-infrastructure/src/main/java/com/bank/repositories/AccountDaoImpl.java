@@ -5,6 +5,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -18,7 +20,11 @@ public class AccountDaoImpl implements AccountDao {
 
     @Override
     public Optional<Account> save(Account account) {
-        return Optional.of(entityManager.get().merge(account));
+        EntityTransaction entityTransaction = entityManager.get().getTransaction();
+        entityTransaction.begin();
+        Optional<Account> accountSaved= Optional.of(entityManager.get().merge(account));
+        entityTransaction.commit();
+        return accountSaved;
     }
 
     @Override
@@ -28,6 +34,10 @@ public class AccountDaoImpl implements AccountDao {
 
     @Override
     public Optional<Account> getFromAccountNumber(String accountNo) {
-        return Optional.empty();
+
+        List<Account> accounts = entityManager.get().createQuery("select a from account a where a.accountNumber = :accountNo", Account.class)
+                .setParameter("accountNo", accountNo)
+                .getResultList();
+        return Optional.ofNullable(accounts.get(0));
     }
 }

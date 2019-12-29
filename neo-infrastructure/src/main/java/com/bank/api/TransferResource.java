@@ -12,6 +12,8 @@ import com.google.inject.Inject;
 import spark.Route;
 import spark.Spark;
 
+import java.util.NoSuchElementException;
+
 import static spark.Spark.exception;
 
 public class TransferResource {
@@ -47,7 +49,16 @@ public class TransferResource {
 
         exception(InsufficientBalanceException.class, (exception, request, response) -> {
             response.status(500);
-            response.body(new Gson().toJson(new ErrorMessage("Bad Request "+exception.getMessage(), 500)));
+            response.body(new Gson().toJson(new ErrorMessage("Server Side exception: "+exception.getMessage(), 500)));
+        });
+        exception(NoSuchElementException.class, (exception, request, response) -> {
+            response.status(500);
+            response.body(new Gson().toJson(new ErrorMessage("Server Side exception: "+exception.getMessage(), 500)));
+        });
+
+        exception(Exception.class, (exception, request, response) -> {
+            response.status(500);
+            response.body(new Gson().toJson(new ErrorMessage("A generic exception "+exception.getMessage(), 500)));
         });
     }
 

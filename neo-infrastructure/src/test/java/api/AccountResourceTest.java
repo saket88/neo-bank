@@ -16,10 +16,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 
 import static io.restassured.RestAssured.given;
-
-import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.*;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 
 
