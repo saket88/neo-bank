@@ -12,6 +12,7 @@ import com.google.inject.Singleton;
 import spark.Route;
 import spark.Spark;
 
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 import static spark.Spark.exception;
@@ -31,6 +32,7 @@ public class AccountResource {
     public void registerAccountRoutes() {
 
         Spark.post("/api/v1/account", createAccount());
+        Spark.get("/api/v1/account", getAccounts());
 
         exception(InvalidAmountException.class, (exception, request, response) -> {
             response.status(400);
@@ -61,6 +63,14 @@ public class AccountResource {
             response.status(201);
             response.type("application-json");
             return gson.toJson(accountService.create(accountValueObject));
+        };
+    }
+
+    private Route getAccounts() {
+        return (request, response) -> {
+            response.status(200);
+            response.type("application-json");
+            return gson.toJson(accountService.getAccounts());
         };
     }
 

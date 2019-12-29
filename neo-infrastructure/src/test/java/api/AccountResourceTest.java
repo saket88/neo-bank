@@ -15,6 +15,8 @@ import org.mockito.BDDMockito;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.Assert.assertTrue;
@@ -62,6 +64,31 @@ public class AccountResourceTest extends BaseResourceTest{
 
 
     }
+
+
+    @Test
+    public void canGetAllTheAccounts() throws FileNotFoundException {
+
+
+        final ArrayList<AccountValueObject> payload = new Gson().fromJson(new JsonReader(new FileReader(
+                getClass().getClassLoader().getResource("account_list.json").getFile())), ArrayList.class);
+
+        BDDMockito.given(accountService.getAccounts()).willReturn(payload);
+
+        ArrayList expected  = given()
+                .contentType(ContentType.JSON)
+                .get("/api/v1/account")
+                .then()
+                .statusCode(200)
+                .extract()
+                .as(ArrayList.class);
+
+        assertTrue(EqualsBuilder.reflectionEquals(expected,payload));
+
+
+
+    }
+
 
     @Test
     public void shouldThrowBadRequestExceptionOnPassingWrongAmount()  {

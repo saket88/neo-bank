@@ -40,4 +40,11 @@ public class AccountDaoImpl implements AccountDao {
                 .getResultList();
         return Optional.ofNullable(accounts.get(0));
     }
+
+    @Override
+    public Optional<List<Account>> getAccounts() {
+        List<Account> accounts = entityManager.get().createQuery("select a  from account a", Account.class)
+                .getResultList();
+        return Optional.ofNullable(accounts);
+    }
 }

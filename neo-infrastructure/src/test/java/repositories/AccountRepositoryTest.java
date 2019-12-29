@@ -11,6 +11,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.assertTrue;
@@ -61,6 +63,44 @@ public class AccountRepositoryTest {
         Optional<Account> accountExpected = accountDao.getFromAccountNumber(accounNumber);
 
         assertTrue(EqualsBuilder.reflectionEquals(accountExpected.get(),account,"id","readWriteLock"));
+
+    }
+
+    @Test
+    public void canGetAllAccounts(){
+
+        Account account1= Account
+                .builder()
+                .accountNumber("NL123")
+                .balance(new BigDecimal(100))
+                .identificationType("PASSPORT")
+                .currency("EUR")
+                .name("Test name")
+                .uniqueIdentificationNumber("abc123")
+                .build();
+
+        Account account2= Account
+                .builder()
+                .accountNumber("NL456")
+                .balance(new BigDecimal(100))
+                .identificationType("PASSPORT")
+                .currency("EUR")
+                .name("Test name")
+                .uniqueIdentificationNumber("abc123")
+                .build();
+
+        Optional<List<Account>> accounts = Optional.of(new ArrayList<>());
+        accounts.get().add(account1);
+        accounts.get().add(account2);
+
+        accountDao.save(account1);
+        accountDao.save(account2);
+
+
+
+        Optional<List<Account>> accountExpected = accountDao.getAccounts();
+
+        assertTrue(EqualsBuilder.reflectionEquals(accountExpected.get(),accounts.get(),"id","readWriteLock"));
 
     }
 

@@ -4,10 +4,14 @@ package com.bank.services;
 import com.bank.domain.Account;
 import com.bank.model.AccountValueObject;
 import com.bank.repositories.AccountDao;
-import com.bank.services.exception.CurrencyNotAllowedException;
-import com.bank.services.exception.InvalidAmountException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Singleton
 public class AccountService {
 
@@ -44,4 +48,12 @@ public class AccountService {
                 .identificationType(accountValueObject.getIdentificationType())
                 .name(accountValueObject.getName()).build();
     }
+
+    public List<AccountValueObject> getAccounts() {
+        List<Account> accounts = accountDao.getAccounts().get();
+        return accounts.stream()
+                .map(this::getAccountValueObjectFrom)
+                .collect(Collectors.toList());
+    }
+
 }

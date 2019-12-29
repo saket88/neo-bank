@@ -13,17 +13,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
-import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Matchers.any;
-import static org.hamcrest.MatcherAssert.*;
-import static org.mockito.Matchers.isNotNull;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AccountServiceTest {
@@ -46,6 +45,31 @@ public class AccountServiceTest {
         AccountValueObject accountValueObjectExpected = accountService.create(accountValueObject);
 
         Assert.assertTrue(EqualsBuilder.reflectionEquals(accountValueObjectExpected,accountValueObject,"accountNumber"));
+
+
+
+
+
+    }
+
+    @Test
+    public void canGetAccounts(){
+
+        AccountValueObject accountValueObject1 = buildAccountValueObject("EUR", 100);
+
+        AccountValueObject accountValueObject2 = buildAccountValueObject("EUR", 10);
+
+
+        Account account1 = buildAccount(accountValueObject1);
+        Account account2 = buildAccount(accountValueObject2);
+        List<Account> accounts = new ArrayList<>();
+        accounts.add(account1);
+        accounts.add(account2);
+        BDDMockito.given(accountDao.getAccounts()).willReturn(Optional.of(accounts));
+
+        List<AccountValueObject> accountsExpexted = accountService.getAccounts();
+
+        Assert.assertTrue(EqualsBuilder.reflectionEquals(accountsExpexted,accounts));
 
 
 
