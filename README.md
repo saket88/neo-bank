@@ -17,7 +17,7 @@ This is a simple neo bank which provides the facility to transfer money.(EUR for
 
 5. JPA is used as ORM.
 
-6. This is a modular archtitechture having broad categories of application,infrastructure,entity and e2e test
+6. This is a modular architecture having broad categories of application,infrastructure,entity and e2e test
 
 7. There is no end to end testing framework used for the end to end testing. 
 I found POSTMAN collections a good documentation for that. It has been enclosed in the module neo-e2e-test

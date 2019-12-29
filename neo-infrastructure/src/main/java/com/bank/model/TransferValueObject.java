@@ -27,6 +27,8 @@ public class TransferValueObject {
 
         if (!(amount.doubleValue()>0))
             throw new InvalidAmountException("Only positive amount transfer is accepted");
+
+
         this.id = id;
         this.fromAccount = fromAccount;
         this.toAccount = toAccount;

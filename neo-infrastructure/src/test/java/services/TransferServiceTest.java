@@ -16,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import javax.management.BadAttributeValueExpException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -40,7 +41,7 @@ public class TransferServiceTest {
 
 
     @Test
-    public void canMakeTransfer(){
+    public void canMakeTransfer() throws BadAttributeValueExpException {
 
         TransferValueObject transferValueObject = TransferValueObject.builder().
                 amount(new BigDecimal(10))
@@ -92,7 +93,7 @@ public class TransferServiceTest {
     }
 
     @Test(expected = CurrencyNotAllowedException.class)
-    public void cannotMakeTransferWithInvalidCurrency(){
+    public void cannotMakeTransferWithInvalidCurrency() throws BadAttributeValueExpException {
 
         TransferValueObject transferValueObject = TransferValueObject.builder().
                 amount(new BigDecimal(10))
@@ -142,7 +143,7 @@ public class TransferServiceTest {
 
 
     @Test(expected = InsufficientBalanceException.class)
-    public void cannotMakeTransferWithInsufficientBalance(){
+    public void cannotMakeTransferWithInsufficientBalance() throws BadAttributeValueExpException {
 
         TransferValueObject transferValueObject = TransferValueObject.builder().
                 amount(new BigDecimal(1000))
