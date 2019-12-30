@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 public class AccountRepositoryTest {
@@ -62,7 +65,13 @@ public class AccountRepositoryTest {
 
         Optional<Account> accountExpected = accountDao.getFromAccountNumber(accounNumber);
 
-        assertTrue(EqualsBuilder.reflectionEquals(accountExpected.get(),account,"id","readWriteLock"));
+        Account expectedAccount = accountExpected.get();
+
+        assertThat(expectedAccount.getBalance(),is(equalTo(expectedAccount.getBalance())));
+        assertThat(expectedAccount.getAccountNumber(),is(equalTo(expectedAccount.getAccountNumber())));
+        assertThat(expectedAccount.getCurrency(),is(equalTo(expectedAccount.getCurrency())));
+        assertThat(expectedAccount.getUniqueIdentificationNumber(),is(equalTo(expectedAccount.getUniqueIdentificationNumber())));
+        assertThat(expectedAccount.getIdentificationType(),is(equalTo(expectedAccount.getIdentificationType())));
 
     }
 
@@ -117,7 +126,12 @@ public class AccountRepositoryTest {
         Optional<Account> accountSaved = accountDao.save(account);
 
         Optional<Account> accountExpected = accountDao.getAccount(accountSaved.get().getId());
-        assertTrue(EqualsBuilder.reflectionEquals(accountExpected,accountSaved));
+
+        assertThat(accountExpected.get().getBalance(),is(equalTo(accountExpected.get().getBalance())));
+        assertThat(accountExpected.get().getAccountNumber(),is(equalTo(accountExpected.get().getAccountNumber())));
+        assertThat(accountExpected.get().getCurrency(),is(equalTo(accountExpected.get().getCurrency())));
+        assertThat(accountExpected.get().getUniqueIdentificationNumber(),is(equalTo(accountExpected.get().getUniqueIdentificationNumber())));
+        assertThat(accountExpected.get().getIdentificationType(),is(equalTo(accountExpected.get().getIdentificationType())));
 
     }
 

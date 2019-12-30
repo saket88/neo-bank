@@ -6,6 +6,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import module.TestRepositoryModule;
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import com.bank.services.exception.NoTransactionAvailableException;
@@ -14,6 +15,9 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 public class TransferRepositoryTest {
@@ -49,12 +53,16 @@ public class TransferRepositoryTest {
                 .createdOn(LocalDateTime.now())
                 .transactionId("TXN-"+Math.round(100*Math.random()))
                 .currency("EUR")
-                .amount(new BigDecimal(100))
+                .amount(new BigDecimal(100.0))
                 .build();
-        Optional<Transfer> transferExpected = transferDao.save(transfer);
+        Transfer transferExpected = transferDao.save(transfer).get();
 
-        Optional<Transfer> transferGet = transferDao.getTransfer(transferExpected.get().getId());
-        assertTrue(EqualsBuilder.reflectionEquals(transferGet,transferExpected));
+        Transfer transferGet = transferDao.getTransfer(transferExpected.getId()).get();
+
+        assertThat(transferExpected.getAmount(), Matchers.comparesEqualTo(transfer.getAmount()));
+        assertThat(transferExpected.getCurrency(),is(equalTo(transferGet.getCurrency())));
+        assertThat(transferExpected.getTransactionId(),is(equalTo(transferGet.getTransactionId())));
+
 
     }
 

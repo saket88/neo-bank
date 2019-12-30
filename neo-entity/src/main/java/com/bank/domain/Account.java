@@ -50,6 +50,8 @@ public class Account {
 
     public void withdraw(BigDecimal amount) {
         this.readWriteLock.writeLock().lock();
+        if (!(this.balance.subtract(amount).doubleValue()>0.0))
+            throw new InsufficientBalanceException("You need some serious balance");
         try {
             this.balance = this.balance.subtract(amount);
         }finally {
@@ -59,8 +61,7 @@ public class Account {
     }
 
     public void deposit(BigDecimal amount) {
-        if (!(this.balance.subtract(amount).doubleValue()>0.0))
-            throw new InsufficientBalanceException("You need some serious balance");
+
         this.readWriteLock.writeLock().lock();
         try {
         this.balance = this.balance.add(amount);
