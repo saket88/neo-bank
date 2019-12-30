@@ -5,14 +5,12 @@ import com.bank.model.ErrorMessage;
 import com.bank.services.AccountService;
 import com.bank.services.exception.CurrencyNotAllowedException;
 import com.bank.services.exception.InvalidAmountException;
-import com.bank.services.exception.NoTransactionAvailableException;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import spark.Route;
 import spark.Spark;
 
-import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 import static spark.Spark.exception;
