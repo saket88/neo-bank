@@ -36,7 +36,7 @@ public class AccountResourceTest extends BaseResourceTest{
     @Before
     public void setUp() throws Exception {
         super.setUp();
-       accountResource.registerAccountRoutes();
+       accountResource.initialize();
 
     }
 

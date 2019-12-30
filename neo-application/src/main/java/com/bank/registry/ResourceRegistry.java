@@ -21,8 +21,8 @@ public class ResourceRegistry {
 
     public void registerRoutes(){
 
-        accountResource.registerAccountRoutes();
-        transferResource.registerTransferRoutes();
+        accountResource.initialize();
+        transferResource.initialize();
 
 
     }

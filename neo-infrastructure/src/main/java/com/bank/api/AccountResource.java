@@ -16,7 +16,7 @@ import java.util.NoSuchElementException;
 import static spark.Spark.exception;
 
 @Singleton
-public class AccountResource  {
+public class AccountResource  extends BaseResource{
     private Gson gson;
 
     private AccountService accountService;
@@ -27,37 +27,16 @@ public class AccountResource  {
     }
 
 
-    public void registerAccountRoutes() {
+    @Override
+    public void initialize() {
 
+        super.initialize();
         Spark.post("/api/v1/account", createAccount());
         Spark.get("/api/v1/account", getAccounts());
 
-        exception(InvalidAmountException.class, (exception, request, response) -> {
-            response.status(400);
-            response.type("application-json");
-            response.body(new Gson().toJson(new ErrorMessage("Bad Request "+exception.getMessage(), 400)));
-        });
-
-        exception(CurrencyNotAllowedException.class, (exception, request, response) -> {
-            response.status(400);
-            response.type("application-json");
-            response.body(new Gson().toJson(new ErrorMessage("Bad Request "+exception.getMessage(), 400)));
-        });
-
-        exception(NoSuchElementException.class, (exception, request, response) -> {
-            response.status(500);
-            response.type("application-json");
-            response.body(new Gson().toJson(new ErrorMessage("Server Side exception: "+exception.getMessage(), 500)));
-        });
-
-        exception(Exception.class, (exception, request, response) -> {
-            response.status(500);
-            response.type("application-json");
-            response.body(new Gson().toJson(new ErrorMessage("A generic exception "+exception.getMessage(), 500)));
-        });
-
 
     }
+
 
     private Route createAccount() {
         return (request, response) -> {

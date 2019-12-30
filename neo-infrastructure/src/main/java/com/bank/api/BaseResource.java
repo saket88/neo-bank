@@ -14,7 +14,7 @@ import static spark.Spark.exception;
 
 public abstract class BaseResource {
 
-    public void registerRoutes() {
+    public void initialize() {
 
         exception(InvalidAmountException.class, (exception, request, response) -> {
             response.status(400);

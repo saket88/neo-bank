@@ -35,7 +35,7 @@ public class TransferResourceTest extends BaseResourceTest{
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        transferResource.registerTransferRoutes();
+        transferResource.initialize();
 
     }
 
