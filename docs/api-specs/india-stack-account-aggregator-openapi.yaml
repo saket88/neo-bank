@@ -1,0 +1,1311 @@
+openapi: 3.0.3
+info:
+  title: India Stack Account Aggregator API
+  description: |
+    RBI-compliant Account Aggregator API specification based on India Stack.
+    
+    This API enables secure financial data sharing between Financial Information Providers (FIPs)
+    like banks and Financial Information Users (FIUs) like lending apps, with user consent.
+    
+    ## Key Features:
+    - Consent-based data sharing
+    - OAuth 2.0 authentication
+    - Digital signatures for data integrity
+    - End-to-end encryption
+    - Multi-bank aggregation
+    
+    ## Actors:
+    - **Account Aggregator (AA)**: Licensed entity managing consent and data flow
+    - **Financial Information Provider (FIP)**: Banks, NBFCs providing financial data
+    - **Financial Information User (FIU)**: Apps/services consuming financial data
+    - **Customer**: End user who owns the financial accounts
+    
+  version: 1.0.0
+  contact:
+    name: Neo Bank India
+    email: api@neobank.in
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+
+servers:
+  - url: https://api.neobank.in/aa/v1
+    description: Production Server
+  - url: https://sandbox.neobank.in/aa/v1
+    description: Sandbox Server
+
+tags:
+  - name: Consent
+    description: Consent management operations
+  - name: FI Request
+    description: Financial Information request operations
+  - name: FI Data
+    description: Financial Information data operations
+  - name: Account Discovery
+    description: Account discovery and linking operations
+  - name: User
+    description: User management operations
+
+paths:
+  /Consent:
+    post:
+      tags:
+        - Consent
+      summary: Create consent request
+      description: FIU initiates a consent request for accessing user's financial data
+      operationId: createConsent
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConsentRequest'
+      responses:
+        '201':
+          description: Consent request created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsentResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalError'
+    
+  /Consent/{consentId}:
+    get:
+      tags:
+        - Consent
+      summary: Get consent status
+      description: Retrieve the current status and details of a consent
+      operationId: getConsent
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: consentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Consent details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsentDetail'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    
+    put:
+      tags:
+        - Consent
+      summary: Update consent status
+      description: Customer approves, rejects or revokes consent
+      operationId: updateConsent
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: consentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConsentUpdate'
+      responses:
+        '200':
+          description: Consent updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsentDetail'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /Consent/handle/{consentHandle}:
+    get:
+      tags:
+        - Consent
+      summary: Fetch consent by handle
+      description: Get consent details using consent handle (for customer approval flow)
+      operationId: getConsentByHandle
+      parameters:
+        - name: consentHandle
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Consent details retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsentDetail'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /FI/request:
+    post:
+      tags:
+        - FI Request
+      summary: Create FI data request
+      description: FIU requests financial data based on approved consent
+      operationId: createFIRequest
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FIRequest'
+      responses:
+        '201':
+          description: FI request created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FIRequestResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /FI/request/{sessionId}:
+    get:
+      tags:
+        - FI Request
+      summary: Get FI request status
+      description: Check status of FI data request
+      operationId: getFIRequestStatus
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: FI request status retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FIRequestStatus'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /FI/fetch:
+    post:
+      tags:
+        - FI Data
+      summary: Fetch financial information
+      description: Retrieve encrypted financial data for approved session
+      operationId: fetchFIData
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FIFetchRequest'
+      responses:
+        '200':
+          description: Financial information retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FIDataResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /FI/Notification:
+    post:
+      tags:
+        - FI Data
+      summary: FI data ready notification
+      description: FIP notifies AA that requested FI data is ready for fetch
+      operationId: fiNotification
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FINotification'
+      responses:
+        '200':
+          description: Notification received
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationAck'
+
+  /Accounts/discover:
+    post:
+      tags:
+        - Account Discovery
+      summary: Discover customer accounts
+      description: Discover customer accounts at FIP using identifiers
+      operationId: discoverAccounts
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountDiscoveryRequest'
+      responses:
+        '200':
+          description: Accounts discovered successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDiscoveryResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /Accounts/link:
+    post:
+      tags:
+        - Account Discovery
+      summary: Link discovered accounts
+      description: Customer confirms and links discovered accounts
+      operationId: linkAccounts
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountLinkRequest'
+      responses:
+        '200':
+          description: Accounts linked successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountLinkResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /Accounts:
+    get:
+      tags:
+        - Account Discovery
+      summary: Get linked accounts
+      description: Retrieve all linked accounts for customer
+      operationId: getLinkedAccounts
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: customerId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Linked accounts retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinkedAccountsResponse'
+
+  /User/register:
+    post:
+      tags:
+        - User
+      summary: Register new user
+      description: Register a new customer with the Account Aggregator
+      operationId: registerUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegistration'
+      responses:
+        '201':
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRegistrationResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          description: User already exists
+
+  /User/authenticate:
+    post:
+      tags:
+        - User
+      summary: Authenticate user
+      description: Authenticate user and generate access token
+      operationId: authenticateUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthenticationRequest'
+      responses:
+        '200':
+          description: Authentication successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticationResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token obtained from authentication endpoint
+
+  schemas:
+    ConsentRequest:
+      type: object
+      required:
+        - ver
+        - timestamp
+        - txnid
+        - ConsentDetail
+      properties:
+        ver:
+          type: string
+          description: API version
+          example: "1.0"
+        timestamp:
+          type: string
+          format: date-time
+          description: Request timestamp in ISO 8601 format
+        txnid:
+          type: string
+          format: uuid
+          description: Unique transaction identifier
+        ConsentDetail:
+          $ref: '#/components/schemas/ConsentDetailRequest'
+
+    ConsentDetailRequest:
+      type: object
+      required:
+        - consentStart
+        - consentExpiry
+        - Customer
+        - FIDataRange
+        - Frequency
+        - DataLife
+        - DataConsumer
+        - Purpose
+        - fiTypes
+      properties:
+        consentStart:
+          type: string
+          format: date-time
+          description: Consent validity start time
+        consentExpiry:
+          type: string
+          format: date-time
+          description: Consent validity end time
+        consentMode:
+          type: string
+          enum: [VIEW, STORE, QUERY, STREAM]
+          description: Mode of data access
+        fetchType:
+          type: string
+          enum: [ONETIME, PERIODIC]
+          description: Frequency type of data fetch
+        consentTypes:
+          type: array
+          items:
+            type: string
+            enum: [PROFILE, SUMMARY, TRANSACTIONS]
+        fiTypes:
+          type: array
+          description: Types of financial information
+          items:
+            type: string
+            enum: [DEPOSIT, TERM_DEPOSIT, RECURRING_DEPOSIT, SIP, CP, GOVT_SECURITIES, EQUITIES, BONDS, DEBENTURES, MUTUAL_FUNDS, ETF, IDR, CIS, AIF, INSURANCE_POLICIES, NPS, INVIT, REIT, GSTR1_3B, OTHER]
+        DataConsumer:
+          $ref: '#/components/schemas/DataConsumer'
+        Customer:
+          $ref: '#/components/schemas/Customer'
+        Purpose:
+          $ref: '#/components/schemas/Purpose'
+        FIDataRange:
+          $ref: '#/components/schemas/FIDataRange'
+        DataLife:
+          $ref: '#/components/schemas/DataLife'
+        Frequency:
+          $ref: '#/components/schemas/Frequency'
+        DataFilter:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataFilter'
+
+    DataConsumer:
+      type: object
+      required:
+        - id
+        - type
+      properties:
+        id:
+          type: string
+          description: FIU identifier
+        type:
+          type: string
+          enum: [AA, FIU]
+
+    Customer:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+          description: Customer identifier (mobile@AA or VID)
+          example: "9876543210@neobank"
+        Identifiers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Identifier'
+
+    Identifier:
+      type: object
+      required:
+        - type
+        - value
+      properties:
+        type:
+          type: string
+          enum: [MOBILE, EMAIL, PAN, DOB, ACCNO, CRN]
+        value:
+          type: string
+
+    Purpose:
+      type: object
+      required:
+        - code
+      properties:
+        code:
+          type: string
+          description: Purpose code as per RBI guidelines
+          enum: [101, 102, 103, 104, 105, 106]
+          example: "101"
+        refUri:
+          type: string
+          format: uri
+          description: Reference to purpose documentation
+        text:
+          type: string
+          description: Human readable purpose
+          example: "Wealth management service"
+        Category:
+          $ref: '#/components/schemas/PurposeCategory'
+
+    PurposeCategory:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [string, enum]
+
+    FIDataRange:
+      type: object
+      required:
+        - from
+        - to
+      properties:
+        from:
+          type: string
+          format: date-time
+          description: Start date-time for financial data
+        to:
+          type: string
+          format: date-time
+          description: End date-time for financial data
+
+    DataLife:
+      type: object
+      required:
+        - unit
+        - value
+      properties:
+        unit:
+          type: string
+          enum: [MONTH, YEAR, DAY, INF]
+          description: Time unit for data storage
+        value:
+          type: integer
+          description: Number of units
+          minimum: 0
+
+    Frequency:
+      type: object
+      required:
+        - unit
+        - value
+      properties:
+        unit:
+          type: string
+          enum: [HOUR, DAY, MONTH, YEAR]
+          description: Frequency unit
+        value:
+          type: integer
+          description: Frequency value
+          minimum: 0
+
+    DataFilter:
+      type: object
+      required:
+        - type
+        - operator
+        - value
+      properties:
+        type:
+          type: string
+          enum: [TRANSACTIONAMOUNT, TRANSACTIONTYPE]
+        operator:
+          type: string
+          enum: ["=", "!=", ">", "<", ">=", "<="]
+        value:
+          type: string
+
+    ConsentResponse:
+      type: object
+      properties:
+        ver:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        txnid:
+          type: string
+          format: uuid
+        Customer:
+          $ref: '#/components/schemas/CustomerAA'
+        ConsentHandle:
+          type: string
+          description: Handle for tracking consent approval
+
+    CustomerAA:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Customer AA identifier
+
+    ConsentDetail:
+      type: object
+      properties:
+        consentId:
+          type: string
+          format: uuid
+          description: Unique consent identifier
+        consentHandle:
+          type: string
+          description: Consent handle
+        consentStatus:
+          type: string
+          enum: [PENDING, ACTIVE, PAUSED, REVOKED, EXPIRED, REJECTED]
+          description: Current consent status
+        createTimestamp:
+          type: string
+          format: date-time
+        signedConsent:
+          type: string
+          description: Digitally signed consent
+        ConsentUse:
+          $ref: '#/components/schemas/ConsentUse'
+
+    ConsentUse:
+      type: object
+      properties:
+        logUri:
+          type: string
+          format: uri
+        count:
+          type: integer
+        lastUseDateTime:
+          type: string
+          format: date-time
+
+    ConsentUpdate:
+      type: object
+      required:
+        - ver
+        - timestamp
+        - txnid
+        - ConsentStatus
+      properties:
+        ver:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        txnid:
+          type: string
+          format: uuid
+        ConsentStatus:
+          type: object
+          required:
+            - status
+          properties:
+            status:
+              type: string
+              enum: [ACTIVE, PAUSED, REVOKED, REJECTED]
+            Accounts:
+              type: array
+              items:
+                $ref: '#/components/schemas/LinkedAccount'
+
+    FIRequest:
+      type: object
+      required:
+        - ver
+        - timestamp
+        - txnid
+        - FIDataRange
+        - Consent
+      properties:
+        ver:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        txnid:
+          type: string
+          format: uuid
+        FIDataRange:
+          $ref: '#/components/schemas/FIDataRange'
+        Consent:
+          type: object
+          required:
+            - id
+          properties:
+            id:
+              type: string
+              format: uuid
+              description: Consent ID
+            digitalSignature:
+              type: string
+              description: Digital signature of consent
+        KeyMaterial:
+          $ref: '#/components/schemas/KeyMaterial'
+
+    KeyMaterial:
+      type: object
+      required:
+        - cryptoAlg
+        - curve
+        - params
+        - DHPublicKey
+        - Nonce
+      properties:
+        cryptoAlg:
+          type: string
+          example: "ECDH"
+        curve:
+          type: string
+          example: "Curve25519"
+        params:
+          type: string
+        DHPublicKey:
+          $ref: '#/components/schemas/DHPublicKey'
+        Nonce:
+          type: string
+
+    DHPublicKey:
+      type: object
+      required:
+        - expiry
+        - Parameters
+        - KeyValue
+      properties:
+        expiry:
+          type: string
+          format: date-time
+        Parameters:
+          type: string
+        KeyValue:
+          type: string
+
+    FIRequestResponse:
+      type: object
+      properties:
+        ver:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        txnid:
+          type: string
+          format: uuid
+        consentId:
+          type: string
+          format: uuid
+        sessionId:
+          type: string
+          format: uuid
+          description: Session ID for tracking FI request
+        sessionStatus:
+          type: string
+          enum: [PENDING, ACTIVE, COMPLETED, EXPIRED, FAILED]
+        FIStatusResponse:
+          type: array
+          items:
+            $ref: '#/components/schemas/FIStatus'
+
+    FIStatus:
+      type: object
+      properties:
+        fipID:
+          type: string
+        Accounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountFIStatus'
+
+    AccountFIStatus:
+      type: object
+      properties:
+        linkRefNumber:
+          type: string
+        FIStatus:
+          type: string
+          enum: [READY, DENIED, PENDING, DELIVERED, TIMEOUT]
+        description:
+          type: string
+
+    FIRequestStatus:
+      type: object
+      properties:
+        sessionId:
+          type: string
+          format: uuid
+        sessionStatus:
+          type: string
+          enum: [PENDING, ACTIVE, COMPLETED, EXPIRED, FAILED]
+        FIStatusResponse:
+          type: array
+          items:
+            $ref: '#/components/schemas/FIStatus'
+
+    FIFetchRequest:
+      type: object
+      required:
+        - ver
+        - timestamp
+        - txnid
+        - sessionId
+        - fipId
+        - linkRefNumber
+      properties:
+        ver:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        txnid:
+          type: string
+          format: uuid
+        sessionId:
+          type: string
+          format: uuid
+        fipId:
+          type: string
+        linkRefNumber:
+          type: array
+          items:
+            type: string
+
+    FIDataResponse:
+      type: object
+      properties:
+        ver:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        txnid:
+          type: string
+          format: uuid
+        FI:
+          type: array
+          items:
+            $ref: '#/components/schemas/FIData'
+
+    FIData:
+      type: object
+      properties:
+        fipID:
+          type: string
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/EncryptedFI'
+        KeyMaterial:
+          $ref: '#/components/schemas/KeyMaterial'
+
+    EncryptedFI:
+      type: object
+      properties:
+        linkRefNumber:
+          type: string
+        maskedAccNumber:
+          type: string
+        encryptedFI:
+          type: string
+          description: Base64 encoded encrypted financial information
+
+    FINotification:
+      type: object
+      required:
+        - ver
+        - timestamp
+        - txnid
+        - sessionId
+        - sessionStatus
+      properties:
+        ver:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        txnid:
+          type: string
+          format: uuid
+        sessionId:
+          type: string
+          format: uuid
+        sessionStatus:
+          type: string
+          enum: [ACTIVE, COMPLETED, EXPIRED, FAILED]
+        FIStatusResponse:
+          type: array
+          items:
+            $ref: '#/components/schemas/FIStatus'
+
+    NotificationAck:
+      type: object
+      properties:
+        ver:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        txnid:
+          type: string
+          format: uuid
+        response:
+          type: string
+          enum: [OK]
+
+    AccountDiscoveryRequest:
+      type: object
+      required:
+        - ver
+        - timestamp
+        - txnid
+        - FIPId
+        - Customer
+      properties:
+        ver:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        txnid:
+          type: string
+          format: uuid
+        FIPId:
+          type: string
+          description: Financial Information Provider ID
+        Customer:
+          type: object
+          required:
+            - id
+            - Identifiers
+          properties:
+            id:
+              type: string
+            Identifiers:
+              type: array
+              items:
+                $ref: '#/components/schemas/Identifier'
+
+    AccountDiscoveryResponse:
+      type: object
+      properties:
+        ver:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        txnid:
+          type: string
+          format: uuid
+        Customer:
+          type: object
+          properties:
+            Accounts:
+              type: array
+              items:
+                $ref: '#/components/schemas/DiscoveredAccount'
+
+    DiscoveredAccount:
+      type: object
+      properties:
+        linkRefNumber:
+          type: string
+          description: Reference number for account linking
+        maskedAccNumber:
+          type: string
+          description: Masked account number for user identification
+        accType:
+          type: string
+          enum: [SAVINGS, CURRENT, NRE, NRO, OVERDRAFT]
+        accRefNumber:
+          type: string
+        FIType:
+          type: string
+          enum: [DEPOSIT, TERM_DEPOSIT, RECURRING_DEPOSIT, SIP]
+        branch:
+          type: string
+        fiDataFetchStatus:
+          type: string
+          enum: [AVAILABLE, UNAVAILABLE]
+
+    AccountLinkRequest:
+      type: object
+      required:
+        - ver
+        - timestamp
+        - txnid
+        - Customer
+        - Accounts
+      properties:
+        ver:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        txnid:
+          type: string
+          format: uuid
+        Customer:
+          type: object
+          required:
+            - id
+          properties:
+            id:
+              type: string
+        Accounts:
+          type: array
+          items:
+            type: object
+            required:
+              - linkRefNumber
+              - authenticator
+            properties:
+              linkRefNumber:
+                type: string
+              authenticator:
+                $ref: '#/components/schemas/Authenticator'
+
+    Authenticator:
+      type: object
+      required:
+        - type
+        - value
+      properties:
+        type:
+          type: string
+          enum: [OTP, NETBANKING, AADHAAR, MOBILE]
+        value:
+          type: string
+          description: Authentication credential value
+
+    AccountLinkResponse:
+      type: object
+      properties:
+        ver:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        txnid:
+          type: string
+          format: uuid
+        Customer:
+          type: object
+          properties:
+            Accounts:
+              type: array
+              items:
+                $ref: '#/components/schemas/LinkedAccount'
+
+    LinkedAccount:
+      type: object
+      properties:
+        linkRefNumber:
+          type: string
+        maskedAccNumber:
+          type: string
+        status:
+          type: string
+          enum: [LINKED, FAILED, PENDING]
+        remarks:
+          type: string
+
+    LinkedAccountsResponse:
+      type: object
+      properties:
+        customerId:
+          type: string
+        accounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/LinkedAccountDetail'
+
+    LinkedAccountDetail:
+      type: object
+      properties:
+        linkRefNumber:
+          type: string
+        fipId:
+          type: string
+        fipName:
+          type: string
+        maskedAccNumber:
+          type: string
+        accType:
+          type: string
+        FIType:
+          type: string
+        linkedDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum: [ACTIVE, INACTIVE, DELINKED]
+
+    UserRegistration:
+      type: object
+      required:
+        - mobile
+        - name
+      properties:
+        mobile:
+          type: string
+          pattern: '^[0-9]{10}$'
+          description: 10-digit mobile number
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        pan:
+          type: string
+          pattern: '^[A-Z]{5}[0-9]{4}[A-Z]{1}$'
+          description: PAN card number
+        dateOfBirth:
+          type: string
+          format: date
+
+    UserRegistrationResponse:
+      type: object
+      properties:
+        customerId:
+          type: string
+          description: Unique customer identifier (mobile@AA)
+        status:
+          type: string
+          enum: [REGISTERED, PENDING_VERIFICATION]
+        message:
+          type: string
+
+    AuthenticationRequest:
+      type: object
+      required:
+        - customerId
+        - credential
+      properties:
+        customerId:
+          type: string
+          description: Customer identifier
+        credential:
+          oneOf:
+            - $ref: '#/components/schemas/OTPCredential'
+            - $ref: '#/components/schemas/PINCredential'
+            - $ref: '#/components/schemas/BiometricCredential'
+
+    OTPCredential:
+      type: object
+      required:
+        - type
+        - otp
+      properties:
+        type:
+          type: string
+          enum: [OTP]
+        otp:
+          type: string
+
+    PINCredential:
+      type: object
+      required:
+        - type
+        - pin
+      properties:
+        type:
+          type: string
+          enum: [PIN]
+        pin:
+          type: string
+
+    BiometricCredential:
+      type: object
+      required:
+        - type
+        - biometricData
+      properties:
+        type:
+          type: string
+          enum: [BIOMETRIC]
+        biometricData:
+          type: string
+          description: Base64 encoded biometric data
+
+    AuthenticationResponse:
+      type: object
+      properties:
+        customerId:
+          type: string
+        accessToken:
+          type: string
+          description: JWT access token
+        refreshToken:
+          type: string
+        expiresIn:
+          type: integer
+          description: Token expiry in seconds
+        tokenType:
+          type: string
+          example: "Bearer"
+
+    Error:
+      type: object
+      required:
+        - errorCode
+        - errorMsg
+      properties:
+        ver:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        txnid:
+          type: string
+          format: uuid
+        errorCode:
+          type: string
+          description: Error code as per AA standards
+          example: "InvalidRequest"
+        errorMsg:
+          type: string
+          description: Human readable error message
+        errorDetails:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+              message:
+                type: string
+              field:
+                type: string
+
+  responses:
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            invalidRequest:
+              value:
+                errorCode: "InvalidRequest"
+                errorMsg: "Request validation failed"
+                timestamp: "2024-01-15T10:30:00Z"
+    
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            unauthorized:
+              value:
+                errorCode: "Unauthorized"
+                errorMsg: "Invalid or expired token"
+                timestamp: "2024-01-15T10:30:00Z"
+    
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            notFound:
+              value:
+                errorCode: "NotFound"
+                errorMsg: "Requested resource not found"
+                timestamp: "2024-01-15T10:30:00Z"
+    
+    InternalError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            internalError:
+              value:
+                errorCode: "InternalError"
+                errorMsg: "An internal error occurred"
+                timestamp: "2024-01-15T10:30:00Z"

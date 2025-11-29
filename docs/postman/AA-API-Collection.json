@@ -1,0 +1,357 @@
+{
+  "info": {
+    "name": "India Stack Account Aggregator API",
+    "description": "Postman collection for testing Account Aggregator APIs",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:9080/api/v1/aa"
+    },
+    {
+      "key": "customerId",
+      "value": "9876543210@neobank"
+    },
+    {
+      "key": "consentId",
+      "value": ""
+    },
+    {
+      "key": "sessionId",
+      "value": ""
+    },
+    {
+      "key": "consentHandle",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Consent Management",
+      "item": [
+        {
+          "name": "Create Consent Request",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "pm.collectionVariables.set(\"consentHandle\", jsonData.consentHandle);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ver\": \"1.0\",\n  \"timestamp\": \"2024-01-15T10:30:00Z\",\n  \"txnid\": \"f35761ac-4a18-11e8-96ff-0277a9fbfedc\",\n  \"consentDetail\": {\n    \"consentStart\": \"2024-01-15T00:00:00Z\",\n    \"consentExpiry\": \"2024-12-31T23:59:59Z\",\n    \"consentMode\": \"VIEW\",\n    \"fetchType\": \"PERIODIC\",\n    \"consentTypes\": [\"TRANSACTIONS\", \"PROFILE\", \"SUMMARY\"],\n    \"fiTypes\": [\"DEPOSIT\"],\n    \"dataConsumer\": {\n      \"id\": \"FIU-001\",\n      \"type\": \"FIU\"\n    },\n    \"customer\": {\n      \"id\": \"{{customerId}}\"\n    },\n    \"purpose\": {\n      \"code\": \"101\",\n      \"text\": \"Wealth management service\"\n    },\n    \"fiDataRange\": {\n      \"from\": \"2023-01-01T00:00:00Z\",\n      \"to\": \"2024-01-15T00:00:00Z\"\n    },\n    \"dataLife\": {\n      \"unit\": \"MONTH\",\n      \"value\": 6\n    },\n    \"frequency\": {\n      \"unit\": \"MONTH\",\n      \"value\": 1\n    }\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/Consent",
+              "host": ["{{baseUrl}}"],
+              "path": ["Consent"]
+            }
+          }
+        },
+        {
+          "name": "Get Consent by Handle",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/Consent/handle/{{consentHandle}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["Consent", "handle", "{{consentHandle}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Consent by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/Consent/{{consentId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["Consent", "{{consentId}}"]
+            }
+          }
+        },
+        {
+          "name": "Approve Consent",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ver\": \"1.0\",\n  \"timestamp\": \"2024-01-15T10:35:00Z\",\n  \"txnid\": \"a1b2c3d4-e5f6-7890-abcd-ef1234567890\",\n  \"consentStatus\": {\n    \"status\": \"ACTIVE\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/Consent/{{consentId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["Consent", "{{consentId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Account Discovery",
+      "item": [
+        {
+          "name": "Discover Accounts",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ver\": \"1.0\",\n  \"timestamp\": \"2024-01-15T10:00:00Z\",\n  \"txnid\": \"b1c2d3e4-f5a6-7b8c-9d0e-1f2a3b4c5d6e\",\n  \"fipId\": \"HDFC-FIP\",\n  \"customer\": {\n    \"id\": \"{{customerId}}\",\n    \"identifiers\": [\n      {\n        \"type\": \"MOBILE\",\n        \"value\": \"9876543210\"\n      }\n    ]\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/Accounts/discover",
+              "host": ["{{baseUrl}}"],
+              "path": ["Accounts", "discover"]
+            }
+          }
+        },
+        {
+          "name": "Link Accounts",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ver\": \"1.0\",\n  \"timestamp\": \"2024-01-15T10:05:00Z\",\n  \"txnid\": \"c2d3e4f5-a6b7-8c9d-0e1f-2a3b4c5d6e7f\",\n  \"customer\": {\n    \"id\": \"{{customerId}}\"\n  },\n  \"accounts\": [\n    {\n      \"linkRefNumber\": \"LINK-REF-12345\",\n      \"authenticator\": {\n        \"type\": \"OTP\",\n        \"value\": \"123456\"\n      }\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/Accounts/link",
+              "host": ["{{baseUrl}}"],
+              "path": ["Accounts", "link"]
+            }
+          }
+        },
+        {
+          "name": "Get Linked Accounts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/Accounts?customerId={{customerId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["Accounts"],
+              "query": [
+                {
+                  "key": "customerId",
+                  "value": "{{customerId}}"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "FI Request",
+      "item": [
+        {
+          "name": "Create FI Request",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "pm.collectionVariables.set(\"sessionId\", jsonData.sessionId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ver\": \"1.0\",\n  \"timestamp\": \"2024-01-15T11:00:00Z\",\n  \"txnid\": \"d3e4f5a6-b7c8-9d0e-1f2a-3b4c5d6e7f8a\",\n  \"fiDataRange\": {\n    \"from\": \"2023-01-01T00:00:00Z\",\n    \"to\": \"2024-01-15T00:00:00Z\"\n  },\n  \"consent\": {\n    \"id\": \"{{consentId}}\",\n    \"digitalSignature\": \"BASE64_ENCODED_SIGNATURE\"\n  },\n  \"keyMaterial\": {\n    \"cryptoAlg\": \"ECDH\",\n    \"curve\": \"Curve25519\",\n    \"params\": \"\",\n    \"dhPublicKey\": {\n      \"expiry\": \"2024-01-15T12:00:00Z\",\n      \"parameters\": \"Curve25519\",\n      \"keyValue\": \"MCowBQYDK2VuAyEAXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX=\"\n    },\n    \"nonce\": \"abcdef123456\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/FI/request",
+              "host": ["{{baseUrl}}"],
+              "path": ["FI", "request"]
+            }
+          }
+        },
+        {
+          "name": "Get FI Request Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/FI/request/{{sessionId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["FI", "request", "{{sessionId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Complete Flow Example",
+      "item": [
+        {
+          "name": "Step 1: Discover Accounts",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ver\": \"1.0\",\n  \"timestamp\": \"2024-01-15T10:00:00Z\",\n  \"txnid\": \"flow-step1-discover\",\n  \"fipId\": \"HDFC-FIP\",\n  \"customer\": {\n    \"id\": \"9876543210@neobank\",\n    \"identifiers\": [\n      {\n        \"type\": \"MOBILE\",\n        \"value\": \"9876543210\"\n      }\n    ]\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/Accounts/discover",
+              "host": ["{{baseUrl}}"],
+              "path": ["Accounts", "discover"]
+            }
+          }
+        },
+        {
+          "name": "Step 2: Link Accounts",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ver\": \"1.0\",\n  \"timestamp\": \"2024-01-15T10:05:00Z\",\n  \"txnid\": \"flow-step2-link\",\n  \"customer\": {\n    \"id\": \"9876543210@neobank\"\n  },\n  \"accounts\": [\n    {\n      \"linkRefNumber\": \"LINK-REF-12345\",\n      \"authenticator\": {\n        \"type\": \"OTP\",\n        \"value\": \"123456\"\n      }\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/Accounts/link",
+              "host": ["{{baseUrl}}"],
+              "path": ["Accounts", "link"]
+            }
+          }
+        },
+        {
+          "name": "Step 3: Create Consent",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "var jsonData = pm.response.json();",
+                  "pm.collectionVariables.set(\"consentHandle\", jsonData.consentHandle);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ver\": \"1.0\",\n  \"timestamp\": \"2024-01-15T10:30:00Z\",\n  \"txnid\": \"flow-step3-consent\",\n  \"consentDetail\": {\n    \"consentStart\": \"2024-01-15T00:00:00Z\",\n    \"consentExpiry\": \"2024-12-31T23:59:59Z\",\n    \"consentMode\": \"VIEW\",\n    \"fetchType\": \"PERIODIC\",\n    \"consentTypes\": [\"TRANSACTIONS\", \"PROFILE\", \"SUMMARY\"],\n    \"fiTypes\": [\"DEPOSIT\"],\n    \"dataConsumer\": {\n      \"id\": \"FIU-001\",\n      \"type\": \"FIU\"\n    },\n    \"customer\": {\n      \"id\": \"9876543210@neobank\"\n    },\n    \"purpose\": {\n      \"code\": \"101\",\n      \"text\": \"Wealth management service\"\n    },\n    \"fiDataRange\": {\n      \"from\": \"2023-01-01T00:00:00Z\",\n      \"to\": \"2024-01-15T00:00:00Z\"\n    },\n    \"dataLife\": {\n      \"unit\": \"MONTH\",\n      \"value\": 6\n    },\n    \"frequency\": {\n      \"unit\": \"MONTH\",\n      \"value\": 1\n    }\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/Consent",
+              "host": ["{{baseUrl}}"],
+              "path": ["Consent"]
+            }
+          }
+        },
+        {
+          "name": "Step 4: Get Consent Details",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/Consent/handle/{{consentHandle}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["Consent", "handle", "{{consentHandle}}"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
