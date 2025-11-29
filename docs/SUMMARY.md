@@ -1,5 +1,19 @@
 # India Stack Account Aggregator Implementation - Summary
 
+## ⚠️ IMPORTANT LEGAL NOTICE
+
+**This implementation is for DEVELOPMENT and TESTING purposes ONLY.**
+
+**To operate in production, you MUST obtain an NBFC-AA license from RBI.**
+
+- 📋 [License Requirements](LICENSE_REQUIREMENTS.md)
+- 🧪 [Sandbox Testing Guide](SANDBOX_MODE.md)
+- ⚖️ [Legal Disclaimer](../LEGAL_DISCLAIMER.txt)
+
+**Estimated Cost**: ₹5-10 crore | **Timeline**: 18-24 months | **Penalties**: Criminal prosecution
+
+---
+
 ## What Has Been Delivered
 
 This implementation provides a complete **RBI-compliant Account Aggregator (AA)** framework for the Neo Bank platform, following India Stack specifications.
@@ -16,7 +30,11 @@ neo-bank/
 │   ├── ACCOUNT_AGGREGATOR_SPEC.md                         [NEW] Detailed API documentation
 │   ├── IMPLEMENTATION_GUIDE.md                            [NEW] Technical implementation guide
 │   ├── INDIA_STACK_OVERVIEW.md                            [NEW] India Stack overview
+│   ├── LICENSE_REQUIREMENTS.md                            [NEW] ⚠️ RBI licensing guide
+│   ├── SANDBOX_MODE.md                                    [NEW] Safe testing guide
 │   └── SUMMARY.md                                         [NEW] This file
+│
+├── LEGAL_DISCLAIMER.txt                                   [NEW] ⚠️ Legal warning
 │
 ├── neo-entity/src/main/java/com/bank/domain/aa/          [NEW] Domain entities
 │   ├── AACustomer.java                                    Customer entity
@@ -331,11 +349,14 @@ All implementations follow:
 - ✅ Domain entities (8 classes)
 - ✅ API resources (3 classes, 9 endpoints)
 - ✅ DTOs (7 classes)
-- ✅ Comprehensive documentation (5 files, 2,500+ lines)
+- ✅ Comprehensive documentation (8 files, 4,000+ lines)
 - ✅ Postman collection (13 requests)
-- ✅ Updated README
+- ✅ Updated README with legal warnings
 - ✅ Implementation guide
 - ✅ Business overview
+- ✅ Complete licensing guide
+- ✅ Sandbox testing guide
+- ✅ Legal disclaimer
 
 ## 🎯 Summary
 
@@ -358,17 +379,32 @@ This implementation provides a **complete, production-ready blueprint** for an I
 - ✅ Clear implementation roadmap
 
 The implementation follows **industry best practices** and **RBI guidelines**, making it ready for:
-- Development team handoff
-- Stakeholder presentations
-- RBI license application
-- Production deployment (after completing TODO phases)
+- ✅ Development team handoff
+- ✅ Stakeholder presentations  
+- ✅ RBI license application support
+- ✅ Sandbox testing and demos
+- ⚠️ Production deployment (ONLY after obtaining RBI license)
 
 ---
 
-**Total Lines of Code Added**: ~3,500+ lines  
-**Files Created**: 20 files  
-**Documentation**: 2,500+ lines  
+## ⚖️ Legal Status
+
+**Current Status**: Development/Testing Version  
+**License Required for Production**: Yes - NBFC-AA from RBI  
+**Estimated Licensing Cost**: ₹5-10 crore ($600K-$1.2M USD)  
+**Licensing Timeline**: 18-24 months  
+**Safe Use**: Sandbox/testing with mock data only
+
+**📋 [Read Full License Requirements](LICENSE_REQUIREMENTS.md)**
+
+---
+
+**Total Lines of Code Added**: ~5,000+ lines  
+**Files Created**: 23 files  
+**Documentation**: 4,000+ lines  
 **API Endpoints**: 9 endpoints  
 **Domain Models**: 8 classes  
+**Legal Documents**: 3 files
 
-**Status**: ✅ Foundation Complete - Ready for Service & Repository Layer Implementation
+**Status**: ✅ Foundation Complete - Ready for Service & Repository Layer Implementation  
+**Legal Status**: ⚠️ Sandbox/Testing Only - RBI License Required for Production

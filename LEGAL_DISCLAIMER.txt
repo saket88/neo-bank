@@ -1,0 +1,243 @@
+================================================================================
+                        LEGAL DISCLAIMER AND WARNING
+              Neo Bank - Account Aggregator Implementation
+================================================================================
+
+⚠️  IMPORTANT: READ THIS BEFORE USING THIS SOFTWARE  ⚠️
+
+================================================================================
+1. LICENSE REQUIREMENT
+================================================================================
+
+Operating an Account Aggregator (AA) in India REQUIRES an NBFC-AA (Non-Banking
+Financial Company - Account Aggregator) license from the Reserve Bank of India
+(RBI).
+
+This software implementation is provided for:
+  ✓ Development and testing purposes
+  ✓ Educational and learning purposes
+  ✓ Proof-of-concept demonstrations
+  ✓ Sandbox environments with mock data
+
+This software is NOT licensed for:
+  ✗ Production use with real customer data
+  ✗ Connection to live banking systems
+  ✗ Commercial Account Aggregator operations
+  ✗ Processing real financial information
+
+================================================================================
+2. REGULATORY COMPLIANCE
+================================================================================
+
+Account Aggregator operations in India are governed by:
+- Reserve Bank of India Act, 1934
+- Banking Regulation Act, 1949
+- RBI Master Direction - NBFC-Account Aggregator (Reserve Bank) Directions, 2016
+- Information Technology Act, 2000
+- Personal Data Protection laws
+
+VIOLATION of these regulations may result in:
+- Criminal prosecution
+- Imprisonment up to 3 years
+- Heavy monetary fines
+- Company shutdown and asset seizure
+- Director disqualification
+- Permanent blacklisting from financial sector
+
+================================================================================
+3. MINIMUM REQUIREMENTS FOR LEGAL OPERATION
+================================================================================
+
+To legally operate this software in production, you MUST:
+
+1. OBTAIN RBI LICENSE
+   - NBFC-AA license from Reserve Bank of India
+   - Application process: 18-24 months
+   - Minimum capital: ₹2 crore (approx. $240,000 USD)
+   - Total investment: ₹5-10 crore (approx. $600K-$1.2M USD)
+
+2. MEET TECHNICAL REQUIREMENTS
+   - ISO 27001 certification (Information Security)
+   - Secure data center infrastructure in India
+   - Business continuity and disaster recovery systems
+   - 24/7 security monitoring
+
+3. MEET COMPLIANCE REQUIREMENTS
+   - Dedicated compliance team
+   - Internal audit function
+   - Risk management framework
+   - Customer grievance redressal mechanism
+   - AML/CFT (Anti-Money Laundering/Counter Financing of Terrorism) policies
+
+4. REGISTER WITH SAHAMATI
+   - Join Sahamati (Account Aggregator Industry Alliance)
+   - Technical integration and certification
+   - Ongoing compliance with technical standards
+
+For detailed information, see: docs/LICENSE_REQUIREMENTS.md
+
+================================================================================
+4. PERMITTED USE WITHOUT LICENSE
+================================================================================
+
+You MAY use this software WITHOUT a license for:
+
+✓ Software development and coding
+✓ Testing with mock/dummy data
+✓ Internal proof-of-concept demonstrations
+✓ Educational purposes and training
+✓ Technology evaluation
+✓ Preparing for license application
+✓ Academic research
+
+================================================================================
+5. PROHIBITED USE WITHOUT LICENSE
+================================================================================
+
+You MUST NOT use this software WITHOUT a license for:
+
+✗ Processing real customer financial data
+✗ Connecting to live banking systems (FIPs)
+✗ Offering services to actual customers
+✗ Storing or transmitting real financial information
+✗ Marketing as an Account Aggregator service
+✗ Any commercial operations involving real data
+✗ Integration with production banking infrastructure
+
+================================================================================
+6. DATA PROTECTION AND PRIVACY
+================================================================================
+
+If you obtain proper licensing and use this software in production:
+
+- You MUST comply with all data protection laws
+- Customer consent is MANDATORY for all data access
+- Financial data MUST be encrypted end-to-end
+- Audit trails MUST be maintained for 10 years
+- Incident reporting to RBI required within 6 hours
+- Customer data MUST be stored in India
+- Data retention policies MUST be strictly followed
+
+================================================================================
+7. NO WARRANTY
+================================================================================
+
+THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+
+IN NO EVENT SHALL THE AUTHORS, COPYRIGHT HOLDERS, OR CONTRIBUTORS BE LIABLE
+FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+================================================================================
+8. LIMITATION OF LIABILITY
+================================================================================
+
+The developers, contributors, and distributors of this software:
+
+- Do NOT guarantee RBI license approval
+- Are NOT responsible for licensing costs or outcomes
+- Do NOT provide legal or regulatory advice
+- Are NOT liable for any regulatory violations
+- Are NOT responsible for unauthorized use of this software
+- Make NO claims about production readiness without proper licensing
+- Accept NO liability for any direct or indirect damages
+
+================================================================================
+9. PROFESSIONAL ADVICE REQUIRED
+================================================================================
+
+Before using this software for any purpose related to Account Aggregator
+operations, you MUST:
+
+✓ Consult with qualified legal counsel in India
+✓ Engage RBI-experienced regulatory consultants
+✓ Obtain written legal opinions on your use case
+✓ Ensure compliance with all applicable laws
+✓ Verify current regulatory requirements (laws may change)
+
+DO NOT rely solely on documentation provided with this software.
+
+================================================================================
+10. ACKNOWLEDGMENT
+================================================================================
+
+By using, deploying, or modifying this software, you acknowledge that:
+
+1. You have read and understood this disclaimer
+2. You understand the RBI licensing requirements
+3. You will NOT use this for production without proper license
+4. You accept full responsibility for compliance with all laws
+5. You will NOT hold the developers liable for any violations
+6. You understand the penalties for unauthorized operation
+7. You will seek professional legal and regulatory advice
+
+================================================================================
+11. JURISDICTION
+================================================================================
+
+This software and its use are subject to:
+- Indian laws and regulations
+- RBI guidelines and master directions
+- Jurisdiction of Indian courts
+
+Any disputes arising from use of this software shall be subject to the
+exclusive jurisdiction of courts in India.
+
+================================================================================
+12. CHANGES TO REGULATIONS
+================================================================================
+
+Regulatory requirements may change. It is YOUR responsibility to:
+- Stay informed of current RBI guidelines
+- Monitor changes to NBFC-AA regulations
+- Update compliance practices accordingly
+- Maintain current licenses and certifications
+
+This disclaimer was last updated: January 2024
+
+================================================================================
+13. CONTACT FOR LICENSING
+================================================================================
+
+For information about NBFC-AA licensing:
+
+Reserve Bank of India (RBI)
+Department of Non-Banking Regulation (DNBR)
+Central Office, Mumbai - 400001, India
+Email: dnbr@rbi.org.in
+Website: https://www.rbi.org.in
+
+Sahamati (Industry Alliance)
+Email: info@sahamati.org.in
+Website: https://sahamati.org.in
+
+================================================================================
+14. SANDBOX/TESTING MODE
+================================================================================
+
+For safe testing without a license, see: docs/SANDBOX_MODE.md
+
+This document provides guidance on:
+- Setting up a test environment
+- Using mock data safely
+- Sandbox configuration
+- Testing best practices
+
+================================================================================
+
+BY USING THIS SOFTWARE, YOU AGREE TO THE TERMS OF THIS DISCLAIMER.
+
+IF YOU DO NOT AGREE, DO NOT USE THIS SOFTWARE.
+
+IF YOU HAVE QUESTIONS, CONSULT LEGAL COUNSEL BEFORE PROCEEDING.
+
+================================================================================
+
+Document Version: 1.0
+Last Updated: January 2024
+Maintained By: Neo Bank Development Team
+
+================================================================================

@@ -1,0 +1,17 @@
+com/bank/domain/aa/Consent.class
+com/bank/domain/Account$AccountBuilder.class
+com/bank/domain/Transfer$TransferBuilder.class
+com/bank/domain/Account.class
+com/bank/domain/aa/AACustomer$AACustomerBuilder.class
+com/bank/domain/Transfer.class
+com/bank/domain/aa/Consent$ConsentBuilder.class
+com/bank/domain/aa/AACustomer.class
+com/bank/domain/aa/FIRequest$FIRequestBuilder.class
+com/bank/domain/aa/LinkedAccount.class
+com/bank/domain/aa/CustomerStatus.class
+com/bank/domain/aa/LinkedAccount$LinkedAccountBuilder.class
+com/bank/domain/aa/ConsentStatus.class
+com/bank/domain/aa/AccountLinkStatus.class
+com/bank/domain/aa/SessionStatus.class
+com/bank/domain/exception/InsufficientBalanceException.class
+com/bank/domain/aa/FIRequest.class

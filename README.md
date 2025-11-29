@@ -27,6 +27,22 @@ I found POSTMAN collections a good documentation for that. It has been enclosed 
 
 ## India Stack Account Aggregator
 
+> ### ⚠️ IMPORTANT LEGAL NOTICE
+> 
+> **This Account Aggregator implementation is for DEVELOPMENT, TESTING, and DEMONSTRATION purposes only.**
+> 
+> **Operating an Account Aggregator in production requires an NBFC-AA license from the Reserve Bank of India (RBI).**
+> 
+> - ❌ Do NOT use with real customer data without RBI license
+> - ❌ Do NOT connect to live banking systems without authorization
+> - ✅ Use for sandbox testing, demos, and proof-of-concept only
+> 
+> **📋 [READ LICENSE REQUIREMENTS →](docs/LICENSE_REQUIREMENTS.md)**
+>
+> **Estimated Licensing Cost**: ₹5-10 crore ($600K-$1.2M USD)  
+> **Timeline**: 18-24 months  
+> **Penalties for Non-Compliance**: Criminal prosecution, heavy fines, company shutdown
+
 This implementation includes a complete **Account Aggregator (AA)** framework based on India Stack specifications. 
 
 ### Features
@@ -37,10 +53,22 @@ This implementation includes a complete **Account Aggregator (AA)** framework ba
 - ✅ **Security**: End-to-end encryption, digital signatures, OAuth 2.0
 
 ### Documentation
-- **API Specification**: [OpenAPI Spec](docs/api-specs/india-stack-account-aggregator-openapi.yaml)
-- **Detailed Guide**: [Account Aggregator Specification](docs/ACCOUNT_AGGREGATOR_SPEC.md)
-- **Implementation Guide**: [Technical Implementation](docs/IMPLEMENTATION_GUIDE.md)
-- **Postman Collection**: [API Testing](docs/postman/AA-API-Collection.json)
+
+#### 🚀 Getting Started
+- **[Quick Start Guide](docs/QUICK_START.md)** - Do I need a license? Start here!
+- **[Sandbox Testing](docs/SANDBOX_MODE.md)** - Safe testing without license
+
+#### ⚖️ Legal & Compliance  
+- **[License Requirements](docs/LICENSE_REQUIREMENTS.md)** - RBI licensing guide ⚠️
+
+#### 📖 Technical Documentation
+- **[API Specification](docs/api-specs/india-stack-account-aggregator-openapi.yaml)** - OpenAPI 3.0 spec
+- **[Account Aggregator Spec](docs/ACCOUNT_AGGREGATOR_SPEC.md)** - Detailed API guide
+- **[Implementation Guide](docs/IMPLEMENTATION_GUIDE.md)** - Technical implementation
+- **[India Stack Overview](docs/INDIA_STACK_OVERVIEW.md)** - Ecosystem & business context
+
+#### 🧪 Testing
+- **[Postman Collection](docs/postman/AA-API-Collection.json)** - API testing collection
 
 ### Account Aggregator Endpoints
 
