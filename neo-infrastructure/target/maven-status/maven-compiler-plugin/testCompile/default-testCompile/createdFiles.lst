@@ -1,0 +1,9 @@
+repositories/TransferRepositoryTest.class
+api/AccountResourceTest.class
+api/TransferResourceTest.class
+api/BaseResourceTest.class
+repositories/AccountRepositoryTest.class
+module/TestRepositoryModule.class
+services/AccountServiceTest.class
+services/TransferServiceConcurrencyTest.class
+services/TransferServiceTest.class

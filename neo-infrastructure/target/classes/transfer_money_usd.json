@@ -1,0 +1,6 @@
+{
+  "fromAccount": "NL1234",
+  "toAccount": "NL5678",
+  "currency": "USD",
+  "amount": 100
+}

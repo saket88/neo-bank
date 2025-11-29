@@ -1,0 +1,4 @@
+com/bank/registry/ResourceRegistry.class
+com/bank/module/NeoApplicationModule.class
+com/bank/module/RepositoryModule.class
+com/bank/NeoApplication.class

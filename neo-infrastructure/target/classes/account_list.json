@@ -1,0 +1,17 @@
+[{
+  "uniqueIdentificationNumber": "abc123",
+  "identificationType": "PASSPORT",
+  "name": "Test name",
+  "balance": 1000,
+  "currency": "EUR",
+  "accountNumber": "NL123"
+},
+{
+  "uniqueIdentificationNumber": "abc456",
+  "identificationType": "PASSPORT",
+  "name": "Test another Name",
+  "balance": 2000,
+  "currency": "EUR",
+  "accountNumber": "NL1456"
+}
+]
